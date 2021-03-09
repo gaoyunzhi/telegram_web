@@ -107,9 +107,8 @@ class Post(object): # can be a post or channel info wrap
 			return ''
 		return video.get('src', '')
 
-	def getPostSize(self):
-		photo_size = len(self.soup.find_all('a', 'tgme_widget_message_photo_wrap'))
-		return photo_size or 1
+	def getImgNumber(self):
+		return len(self.soup.find_all('a', 'tgme_widget_message_photo_wrap'))
 
 	def __str__(self):
 		return '%s: %s' % (self.getKey(), self.getMaintext())
