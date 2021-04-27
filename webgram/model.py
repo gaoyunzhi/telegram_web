@@ -49,21 +49,25 @@ class Post(object): # can be a post or channel info wrap
 	def _getIndex(self):
 		if self.isChannel():
 			return getText(self.title, self.description)
+		if self.text:
+			raw_links = ' '.join([item.get('href', '') for item in self.text.find_all('a')])
+		else:
+			raw_links = ''
 		if not self.text or not self.link:
-			return getText(self.file, self.link, self.preview, 
-				self.text, self.poll)
+			return textJoin(getText(self.file, self.link, self.preview, 
+				self.text, self.poll), raw_links)
 		textLink = None
 		for item in self.text.find_all('a'):
 			textLink = getText(item)
 			if textLink:
 				break
 		if not textLink:
-			return getText(self.file, self.link, self.preview, self.text)
+			return textJoin(getText(self.file, self.link, self.preview, self.text), raw_links)
 		text = getText(self.text)
 		first_part = text.split(textLink)[0]
 		second_part = text[len(first_part):]
 		return textJoin(getText(self.file), first_part, 
-			getText(self.link, self.preview), second_part)
+			getText(self.link, self.preview), second_part, raw_links)
 
 	def getIndex(self):
 		raw = []
@@ -82,7 +86,7 @@ class Post(object): # can be a post or channel info wrap
 		raw += [self.forward_from, self.author, self.reply, 
 			self.forward_author, getText(self.author_field), 
 			self._getIndex()]
-		return ' '.join([x for x in raw if x])
+		return ' '.join([x.strip() for x in raw if x])
 
 	def getAuthor(self):
 		usernames = [self.forward_author, self.author]
