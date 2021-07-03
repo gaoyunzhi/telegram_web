@@ -4,7 +4,7 @@
 import webgram
 
 def test():
-	print(webgram.getPost('social_justice_watch', 5847).getIndex())
+	print(webgram.getPost('douban_read', 63894))
 
 if __name__=='__main__':
 	test()
