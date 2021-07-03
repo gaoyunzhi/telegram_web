@@ -4,7 +4,7 @@
 import webgram
 
 def test():
-	print(webgram.getPost('douban_read', 63894))
+	print(webgram.getPost('douban_read', 63896).hasVideo())
 
 if __name__=='__main__':
 	test()

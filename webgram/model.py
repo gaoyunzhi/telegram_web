@@ -111,6 +111,9 @@ class Post(object): # can be a post or channel info wrap
 			return ''
 		return video.get('src', '')
 
+	def hasVideo(self):
+		return self.soup.find('a', class_='tgme_widget_message_video_player')
+
 	def getImgNumber(self):
 		return len(self.soup.find_all('a', 'tgme_widget_message_photo_wrap'))
 
