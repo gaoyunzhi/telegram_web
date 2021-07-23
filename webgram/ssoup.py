@@ -1,6 +1,8 @@
 import cached_url
 from bs4 import BeautifulSoup
 from datetime import datetime
+import pytz
+from tzlocal import get_localzone
 
 def getSoup(url, force_cache=True):
 	return BeautifulSoup(cached_url.get(url, force_cache=force_cache),
@@ -38,7 +40,8 @@ def getTime(soup):
 	try:
 		return int(datetime.strptime(soup.find('a', 
 			class_='tgme_widget_message_date').find('time')[
-			'datetime'][:-6], '%Y-%m-%dT%H:%M:%S').timestamp())
+			'datetime'][:-6], '%Y-%m-%dT%H:%M:%S').replace(
+			tzinfo=pytz.utc).astimezone(get_localzone()).timestamp())
 	except:
 		return 0
 
